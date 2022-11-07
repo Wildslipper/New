@@ -3,7 +3,6 @@ from config import keys, TOKEN
 import requests
 import json
 
-
 bot = telebot.TeleBot(TOKEN)
 
 
@@ -38,6 +37,10 @@ def choose_second_currency(message):
         mess = bot.send_message(message.chat.id, 'You must select by clicking:')
         bot.register_next_step_handler(mess, choose_second_currency)
 
+def start_button():
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.row('START')
+
 
 def amount_euro(message):
     close_button = telebot.types.ReplyKeyboardRemove()
@@ -50,6 +53,8 @@ def amount_euro(message):
     else:
         mess = bot.send_message(message.chat.id, 'You must select by clicking:')
         bot.register_next_step_handler(mess, amount_euro)
+
+
 def convert_euro_dollar(message):
     r = requests.get('https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=USD')
     ans = json.loads(r.text)[keys['Dollar']]
@@ -57,7 +62,9 @@ def convert_euro_dollar(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> dollars.', parse_mode ='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> dollars.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
                                     f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
                                     parse_mode='html', reply_markup=markup)
@@ -65,6 +72,8 @@ def convert_euro_dollar(message):
         except ValueError:
             mess = bot.send_message(message.chat.id, 'Enter a number')
             bot.register_next_step_handler(mess, convert_euro_dollar)
+
+
 def convert_euro_ruble(message):
     r = requests.get('https://min-api.cryptocompare.com/data/price?fsym=EUR&tsyms=RUB')
     ans = json.loads(r.text)[keys['Ruble']]
@@ -72,7 +81,9 @@ def convert_euro_ruble(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> rubles.', parse_mode='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> rubles.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
                                     f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
                                     parse_mode='html', reply_markup=markup)
@@ -80,6 +91,7 @@ def convert_euro_ruble(message):
         except ValueError:
             mess = bot.send_message(message.chat.id, 'Enter a number:')
             bot.register_next_step_handler(mess, convert_euro_ruble)
+
 
 def amount_dollar(message):
     close_button = telebot.types.ReplyKeyboardRemove()
@@ -93,6 +105,7 @@ def amount_dollar(message):
         mess = bot.send_message(message.chat.id, 'You must select by clicking:')
         bot.register_next_step_handler(mess, amount_dollar)
 
+
 def convert_dollar_euro(message):
     r = requests.get('https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=EUR')
     ans = json.loads(r.text)[keys['Euro']]
@@ -100,14 +113,17 @@ def convert_dollar_euro(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> euros.', parse_mode='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> euros.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
-                                f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
-                                parse_mode='html', reply_markup=markup)
+                                    f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
+                                    parse_mode='html', reply_markup=markup)
             bot.register_next_step_handler(mess, start)
         except ValueError:
             mess = bot.send_message(message.chat.id, 'Enter a number:')
             bot.register_next_step_handler(mess, convert_dollar_euro)
+
 
 def convert_dollar_ruble(message):
     r = requests.get('https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=RUB')
@@ -116,7 +132,9 @@ def convert_dollar_ruble(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> rubles.', parse_mode='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> rubles.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
                                     f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
                                     parse_mode='html', reply_markup=markup)
@@ -124,6 +142,7 @@ def convert_dollar_ruble(message):
         except ValueError:
             mess = bot.send_message(message.chat.id, 'Enter a number:')
             bot.register_next_step_handler(mess, convert_dollar_ruble)
+
 
 def amount_ruble(message):
     close_button = telebot.types.ReplyKeyboardRemove()
@@ -145,7 +164,9 @@ def convert_ruble_euro(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> euros.', parse_mode='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> euros.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
                                     f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
                                     parse_mode='html', reply_markup=markup)
@@ -154,6 +175,7 @@ def convert_ruble_euro(message):
             mess = bot.send_message(message.chat.id, 'Enter a number:')
             bot.register_next_step_handler(mess, convert_ruble_euro)
 
+
 def convert_ruble_dollar(message):
     r = requests.get('https://min-api.cryptocompare.com/data/price?fsym=RUB&tsyms=USD')
     ans = json.loads(r.text)[keys['Dollar']]
@@ -161,7 +183,9 @@ def convert_ruble_dollar(message):
     markup.row('START')
     if message.text != float:
         try:
-            bot.send_message(message.chat.id, f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> dollars.', parse_mode='html')
+            bot.send_message(message.chat.id,
+                             f'The value of your currency is <b>{str(round(float(message.text) * ans, 2))}</b> dollars.',
+                             parse_mode='html')
             mess = bot.send_message(message.chat.id,
                                     f'<b>{message.from_user.first_name}</b>, press start to select a currency.',
                                     parse_mode='html', reply_markup=markup)
@@ -172,5 +196,3 @@ def convert_ruble_dollar(message):
 
 
 bot.polling(non_stop=True)
-
-
